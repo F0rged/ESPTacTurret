@@ -1,0 +1,57 @@
+esphome:
+  name: driveway_turret
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "mywifi"
+  password: "mywifipassword"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Driveway Turret Fallback Hotspot"
+    password: "yabbadabbado"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: set_h_target
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: h_axis
+            target: !lambda 'return target;'
+    - service: set_v_target
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: v_axis
+            target: !lambda 'return target;'
+
+
+ota:
+
+stepper:
+  - platform: a4988
+    id: h_axis
+    step_pin: D3
+    dir_pin: D4
+    sleep_pin: D5
+    max_speed: 200 steps/s
+    acceleration: 100
+    deceleration: 100
+  - platform: a4988
+    id: v_axis
+    step_pin: D7
+    dir_pin: D6
+    sleep_pin: D8
+    max_speed: 200 steps/s
+    acceleration: 100
+    deceleration: 100
