@@ -1,0 +1,24 @@
+
+input_number:
+  stepper_control:
+    name: Stepper Control
+    initial: 0
+    min: -1000
+    max: 1000
+    step: 1
+    mode: slider
+    
+    
+automation:
+  - alias: Write Stepper Value to ESP
+    trigger:
+      platform: state
+      entity_id: input_number.stepper_control
+    action:
+      # Replace livingroom with the name you gave the ESP
+      - service: esphome.driveway_turret_set_h_target
+        data_template:
+          target: '{{ trigger.to_state.state | int }}'
+      - service: esphome.driveway_turret_set_v_target
+        data_template:
+          target: '{{ trigger.to_state.state | int }}'
