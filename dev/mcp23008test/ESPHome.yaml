@@ -1,0 +1,47 @@
+esphome:
+  name: driveway_turret
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "redacted"
+  password: "redacted"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Driveway Turret Fallback Hotspot"
+    password: "redacted"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+
+i2c:
+  sda: D2
+  scl: D1
+  #frequency: 100kHz
+
+ota:
+
+api:
+
+mcp23008:
+  - id: 'mcp23008_hub'
+    address: 0x20
+    
+binary_sensor:
+  - platform: gpio
+    name: "MCP23008 Pin #0"
+    pin:
+      mcp23008: mcp23008_hub
+      # Use pin number 0
+      number: 0
+      # One of INPUT or INPUT_PULLUP
+      mode: INPUT_PULLUP
+      inverted: False
+    on_press:
+      then:
+        - logger.log: "Button Pressed!"
+  
