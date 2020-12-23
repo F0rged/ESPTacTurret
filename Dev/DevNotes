@@ -1,0 +1,4 @@
+-=-=-=-=-=-  Regarding Steppers: -=-=-=-=-=-  
+ESPHome sleep mode works and eliminates the hummning noise, however it causes the stepper to have issues with tiny steps.
+Sending 1 step commands to the stepper causes a studder.  This may not be an issue under normal conditions, but something to watch out for.
+Also, changing the A4988 board from running at 5v to 3.3v may also have eliminated the humming noise anyways.
